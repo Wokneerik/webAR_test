@@ -1,126 +1,68 @@
-import { useGLTF, useTexture } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import React from 'react'
 import { useCustomization } from '../../context/castomization'
+import { getMaterialTextureProps } from '../../utils/materialUtils'
 
 const Backpack = () => {
 	const { nodes } = useGLTF('/models/backpack.glb')
-
-	const backpackGroup = nodes.Back_pack_001
-
-	const backpackBody = backpackGroup?.children?.[0]
-	const backpackMetal = backpackGroup?.children?.[1]
-	const backpackStrap = backpackGroup?.children?.[2]
-
 	const { bodyColor, metalColor, material } = useCustomization()
 
-	const leatherTextureProps = useTexture({
-		map: '/public/materials/leather_baseColor.jpg',
-		normalMap: '/public/materials/leather_normal.jpg',
-		roughnessMap: '/public/materials/leather_occlusionRoughnessMetallic.jpg',
-	})
+	if (!nodes.Back_pack_001?.children) {
+		return null
+	}
 
-	const fabricTextureProps = useTexture({
-		map: '/public/materials/fabric_baseColor.jpg',
-		normalMap: '/public/materials/fabric_normal.jpg',
-		roughnessMap: '/public/materials/fabric_occlusionRoughnessMetallic.jpg',
-	})
+	const backpackGroup = nodes.Back_pack_001
+	const [backpackBody, backpackMetal, backpackStrap] = backpackGroup.children
 
-	const denimTextureProps = useTexture({
-		map: '/public/materials/denim_baseColor.jpg',
-		normalMap: '/public/materials/denim_normal.jpg',
-		roughnessMap: '/public/materials/denim_occlusionRoughnessMetallic.jpg',
-	})
+	const bodyTextureProps = getMaterialTextureProps(material)
+	const metalTextureProps = getMaterialTextureProps('metal')
+	const strapTextureProps = getMaterialTextureProps('strap')
 
-	const metalTextureProps = useTexture({
-		map: '/public/materials/metall_baseColor.jpg',
-		normalMap: '/public/materials/metall_normal.jpg',
-		roughnessMap: '/public/materials/metall_occlusionRoughnessMetallic.jpg',
-	})
+	const materialProperties = {
+		leather: { roughness: 0.9, metalness: 0.1 },
+		fabric: { roughness: 1.0, metalness: 0.0 },
+		denim: { roughness: 0.95, metalness: 0.05 },
+	}
 
-	const strapTextureProps = useTexture({
-		map: '/public/materials/strap_baseColor.jpg',
-		normalMap: '/public/materials/strap_normal.jpg',
-		roughnessMap: '/public/materials/strap_occlusionRoughnessMetallic.jpg',
-	})
+	const { roughness, metalness } =
+		materialProperties[material] || materialProperties.fabric
 
 	return (
 		<group dispose={null} scale={[0.3, 0.3, 0.3]}>
-			{backpackGroup?.children?.map((child, index) => {
-				if (!child.isMesh) return null
+			{/* Body Mesh  */}
+			<mesh geometry={backpackBody.geometry} castShadow receiveShadow>
+				<meshStandardMaterial
+					attach='material'
+					color={bodyColor.color}
+					{...bodyTextureProps}
+					roughness={roughness}
+					metalness={metalness}
+					envMapIntensity={0.5}
+				/>
+			</mesh>
 
-				if (child === backpackBody) {
-					let textureProps = {}
-					if (material === 'leather') {
-						textureProps = leatherTextureProps
-					} else if (material === 'fabric') {
-						textureProps = fabricTextureProps
-					} else {
-						textureProps = denimTextureProps
-					}
+			{/* Metal Parts Mesh */}
+			<mesh geometry={backpackMetal.geometry} castShadow receiveShadow>
+				<meshStandardMaterial
+					attach='material'
+					color={metalColor.color}
+					{...metalTextureProps}
+					metalness={0.9}
+					envMapIntensity={0.8}
+				/>
+			</mesh>
 
-					return (
-						<mesh
-							key={index}
-							geometry={child.geometry}
-							material={child.material}
-							castShadow
-							receiveShadow
-						>
-							<meshStandardMaterial
-								attach='material'
-								color={bodyColor.color}
-								map={textureProps.map}
-								normalMap={textureProps.normalMap}
-								roughnessMap={textureProps.roughnessMap}
-								roughness={
-									material === 'leather'
-										? 0.7
-										: material === 'fabric'
-										? 0.9
-										: 0.8
-								}
-								metalness={material === 'leather' ? 0.3 : 0.1}
-								envMapIntensity={0.8}
-							/>
-						</mesh>
-					)
-				} else if (child === backpackMetal) {
-					return (
-						<mesh
-							key={index}
-							geometry={child.geometry}
-							material={child.material}
-							castShadow
-							receiveShadow
-						>
-							<meshStandardMaterial
-								attach='material'
-								color={metalColor.color}
-								map={metalTextureProps.map}
-								normalMap={metalTextureProps.normalMap}
-								roughnessMap={metalTextureProps.roughnessMap}
-								metalness={0.9}
-								envMapIntensity={0.8}
-							/>
-						</mesh>
-					)
-				} else
-					<mesh
-						key={index}
-						geometry={child.geometry}
-						material={child.material}
-						castShadow
-						receiveShadow
-					>
-						<meshStandardMaterial
-							attach='material'
-							color={metalColor.color}
-							map={strapTextureProps.map}
-							normalMap={strapTextureProps.normalMap}
-							roughnessMap={strapTextureProps.roughnessMap}
-						/>
-					</mesh>
-			})}
+			{/* Strap Mesh */}
+			<mesh geometry={backpackStrap.geometry} castShadow receiveShadow>
+				<meshStandardMaterial
+					attach='material'
+					color={bodyColor.color}
+					{...strapTextureProps}
+					roughness={roughness}
+					metalness={metalness}
+					envMapIntensity={0.5}
+				/>
+			</mesh>
 		</group>
 	)
 }
