@@ -16,7 +16,7 @@ export const bodyColors = [
 export const metalColors = [
 	{
 		colorImgPath: '/public/backpackMetal/silver.png',
-		name: 'Gilver',
+		name: 'Silver',
 	},
 	{
 		colorImgPath: '/public/backpackMetal/gold.png',

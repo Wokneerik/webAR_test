@@ -92,3 +92,17 @@
 	background-color: #f0f0f0;
 	color: #4169e1;
 }
+
+.color-option.selected .color-circle,
+.color-option.selected .color-image-circle {
+	border: 1px solid #2196f3;
+	box-shadow: 0 0 6px rgba(33, 150, 243, 0.6);
+}
+
+.rounded-button.selected {
+	border: 2px solid #2196f3;
+	background-color: #e3f2fd;
+	color: #0d47a1;
+	font-weight: 500;
+	box-shadow: 0 0 6px rgba(33, 150, 243, 0.4);
+}
