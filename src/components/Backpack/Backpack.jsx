@@ -7,9 +7,11 @@ const Backpack = () => {
 
 	const backpackGroup = nodes.Back_pack_001
 
-	const { bodyColor, metalColor, material } = useCustomization()
+	const backpackBody = backpackGroup?.children?.[0]
+	const backpackMetal = backpackGroup?.children?.[1]
+	const backpackStrap = backpackGroup?.children?.[2]
 
-	console.log('CHECK COLORS,', bodyColor, metalColor)
+	const { bodyColor, metalColor, material } = useCustomization()
 
 	const leatherTextureProps = useTexture({
 		map: '/public/materials/leather_baseColor.jpg',
@@ -29,21 +31,80 @@ const Backpack = () => {
 		roughnessMap: '/public/materials/denim_occlusionRoughnessMetallic.jpg',
 	})
 
+	const metalTextureProps = useTexture({
+		map: '/public/materials/metall_baseColor.jpg',
+		normalMap: '/public/materials/metall_normal.jpg',
+		roughnessMap: '/public/materials/metall_occlusionRoughnessMetallic.jpg',
+	})
+
+	const strapTextureProps = useTexture({
+		map: '/public/materials/strap_baseColor.jpg',
+		normalMap: '/public/materials/strap_normal.jpg',
+		roughnessMap: '/public/materials/strap_occlusionRoughnessMetallic.jpg',
+	})
+
 	return (
 		<group dispose={null} scale={[0.3, 0.3, 0.3]}>
-			{backpackGroup.children.map((child, index) => {
+			{backpackGroup?.children?.map((child, index) => {
 				if (!child.isMesh) return null
 
-				let textureProps = {}
-				if (material === 'leather') {
-					textureProps = leatherTextureProps
-				} else if (material === 'fabric') {
-					textureProps = fabricTextureProps
-				} else {
-					textureProps = denimTextureProps
-				}
+				if (child === backpackBody) {
+					let textureProps = {}
+					if (material === 'leather') {
+						textureProps = leatherTextureProps
+					} else if (material === 'fabric') {
+						textureProps = fabricTextureProps
+					} else {
+						textureProps = denimTextureProps
+					}
 
-				return (
+					return (
+						<mesh
+							key={index}
+							geometry={child.geometry}
+							material={child.material}
+							castShadow
+							receiveShadow
+						>
+							<meshStandardMaterial
+								attach='material'
+								color={bodyColor.color}
+								map={textureProps.map}
+								normalMap={textureProps.normalMap}
+								roughnessMap={textureProps.roughnessMap}
+								roughness={
+									material === 'leather'
+										? 0.7
+										: material === 'fabric'
+										? 0.9
+										: 0.8
+								}
+								metalness={material === 'leather' ? 0.3 : 0.1}
+								envMapIntensity={0.8}
+							/>
+						</mesh>
+					)
+				} else if (child === backpackMetal) {
+					return (
+						<mesh
+							key={index}
+							geometry={child.geometry}
+							material={child.material}
+							castShadow
+							receiveShadow
+						>
+							<meshStandardMaterial
+								attach='material'
+								color={metalColor.color}
+								map={metalTextureProps.map}
+								normalMap={metalTextureProps.normalMap}
+								roughnessMap={metalTextureProps.roughnessMap}
+								metalness={0.9}
+								envMapIntensity={0.8}
+							/>
+						</mesh>
+					)
+				} else
 					<mesh
 						key={index}
 						geometry={child.geometry}
@@ -53,20 +114,12 @@ const Backpack = () => {
 					>
 						<meshStandardMaterial
 							attach='material'
-							color={bodyColor.color}
-							map={textureProps.map}
-							normalMap={textureProps.normalMap}
-							roughnessMap={textureProps.roughnessMap}
-							roughness={
-								material === 'leather' ? 0.7 : material === 'fabric' ? 0.9 : 0.8
-							}
-							metalness={material === 'leather' ? 0.3 : 0.1}
-							envMapIntensity={0.8}
+							color={metalColor.color}
+							map={strapTextureProps.map}
+							normalMap={strapTextureProps.normalMap}
+							roughnessMap={strapTextureProps.roughnessMap}
 						/>
 					</mesh>
-				)
-
-				return null
 			})}
 		</group>
 	)
