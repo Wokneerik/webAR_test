@@ -1,0 +1,20 @@
+.ar-button {
+	background-color: #4169e1;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	position: absolute;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 10;
+}
+
+.ar-icon {
+	margin-right: 8px;
+}
