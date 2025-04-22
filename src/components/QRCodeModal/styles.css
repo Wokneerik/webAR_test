@@ -41,6 +41,13 @@
 
 .qrcode-wrapper {
 	margin-bottom: 20px;
+	width: 150px;
+	height: 150px;
+	border: 1px solid #4169e1;
+	border-radius: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .qrcode-modal-close {
@@ -68,4 +75,8 @@
 
 .qrcode-modal-close::after {
 	transform: rotate(-45deg);
+}
+
+.qrcode {
+	color: #4169e1;
 }

@@ -1,6 +1,7 @@
 import React from 'react'
+import QRCode from 'react-qr-code'
 import './styles.css'
-const QRCodeModal = ({ onClose }) => {
+const QRCodeModal = ({ url, onClose }) => {
 	return (
 		<div className='qrcode-modal-overlay'>
 			<div className='qrcode-modal-container'>
@@ -10,7 +11,10 @@ const QRCodeModal = ({ onClose }) => {
 					opens on your phone.
 				</div>
 				<div className='qrcode-separator'></div>
-				<div className='qrcode-wrapper'></div>
+				<div className='qrcode-wrapper'>
+					{' '}
+					<QRCode fgColor={'#4169E1'} level={'L'} value={url} size={120} />
+				</div>
 			</div>
 		</div>
 	)

@@ -10,6 +10,9 @@ const ARButton = () => {
 	const handleButtonClick = () => {
 		setShowQRCode(prev => !prev)
 	}
+
+	const arExperienceURL = 'http://192.168.0.100:5173/'
+
 	return (
 		<>
 			<button className='ar-button' onClick={handleButtonClick}>
@@ -23,7 +26,9 @@ const ARButton = () => {
 				See In Real Life
 			</button>
 
-			{showQRCode && <QRCodeModal onClose={handleButtonClick} />}
+			{showQRCode && (
+				<QRCodeModal url={arExperienceURL} onClose={handleButtonClick} />
+			)}
 		</>
 	)
 }
