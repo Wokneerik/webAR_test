@@ -15,6 +15,10 @@
 	z-index: 10;
 }
 
+.ar-button:hover {
+	background-color: #3367d6;
+}
+
 .ar-icon {
 	margin-right: 8px;
 }
