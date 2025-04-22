@@ -1,4 +1,4 @@
-import { OrbitControls } from '@react-three/drei'
+import { Environment, OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import React from 'react'
 import * as THREE from 'three'
@@ -35,18 +35,20 @@ const SceneCanvas = () => {
 					maxPolarAngle={Math.PI / 2.3}
 					minPolarAngle={Math.PI / 4.5}
 				/>
-				<ambientLight color={0x404040} intensity={1} />
+				<ambientLight color={0xffffff} intensity={5} />
 				<directionalLight
 					color={0xffffff}
-					intensity={0.6}
-					position={[300, 0, 200]}
+					intensity={2.6}
+					position={[100, 30, 50]}
 					castShadow
 				/>
 				<hemisphereLight
 					skyColor={0xffffff}
 					groundColor={0x080820}
-					intensity={0.6}
+					intensity={2.6}
 				/>
+
+				<Environment preset='warehouse' background={false} />
 
 				<Backpack />
 			</Canvas>

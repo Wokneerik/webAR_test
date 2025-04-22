@@ -32,23 +32,40 @@ const Backpack = () => {
 	return (
 		<group dispose={null} scale={[0.3, 0.3, 0.3]}>
 			{backpackGroup.children.map((child, index) => {
-				if (child.isMesh) {
-					return (
-						<mesh
-							key={index}
-							geometry={child.geometry}
-							material={child.material}
-							castShadow
-							receiveShadow
-						>
-							<meshStandardMaterial
-								{...(material === 'leather'
-									? leatherTextureProps
-									: fabricTextureProps)}
-							/>
-						</mesh>
-					)
+				if (!child.isMesh) return null
+
+				let textureProps = {}
+				if (material === 'leather') {
+					textureProps = leatherTextureProps
+				} else if (material === 'fabric') {
+					textureProps = fabricTextureProps
+				} else {
+					textureProps = denimTextureProps
 				}
+
+				return (
+					<mesh
+						key={index}
+						geometry={child.geometry}
+						material={child.material}
+						castShadow
+						receiveShadow
+					>
+						<meshStandardMaterial
+							attach='material'
+							color={bodyColor.color}
+							map={textureProps.map}
+							normalMap={textureProps.normalMap}
+							roughnessMap={textureProps.roughnessMap}
+							roughness={
+								material === 'leather' ? 0.7 : material === 'fabric' ? 0.9 : 0.8
+							}
+							metalness={material === 'leather' ? 0.3 : 0.1}
+							envMapIntensity={0.8}
+						/>
+					</mesh>
+				)
+
 				return null
 			})}
 		</group>

@@ -25,7 +25,7 @@ const Configurator = () => {
 							<div
 								key={colorOption.name}
 								className={`color-option ${
-									bodyColor.name === colorOption.name ? 'selected' : ''
+									bodyColor.color === colorOption.color ? 'selected' : ''
 								}`}
 								onClick={() => setBodyColor(colorOption)}
 							>

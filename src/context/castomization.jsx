@@ -6,7 +6,7 @@ const CustomizationContext = createContext({})
 export const CustomizationProvider = props => {
 	const [bodyColor, setBodyColor] = useState(bodyColors[0])
 	const [metalColor, setMetalCOlor] = useState(metalColors[0])
-	const [material, setMaterial] = useState('lather')
+	const [material, setMaterial] = useState('leather')
 
 	return (
 		<CustomizationContext.Provider
