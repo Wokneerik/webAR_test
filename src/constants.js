@@ -15,17 +15,17 @@ export const bodyColors = [
 
 export const metalColors = [
 	{
-		colorImgPath: '/public/backpackMetal/silver.png',
+		colorImgPath: '/backpackMetal/silver.png',
 		name: 'Silver',
 		color: '#C1C1C1',
 	},
 	{
-		colorImgPath: '/public/backpackMetal/gold.png',
+		colorImgPath: '/backpackMetal/gold.png',
 		name: 'Gold',
 		color: '#F5CF37',
 	},
 	{
-		colorImgPath: '/public/backpackMetal/black.png',
+		colorImgPath: '/backpackMetal/black.png',
 		name: 'Black',
 		color: '#181818',
 	},
