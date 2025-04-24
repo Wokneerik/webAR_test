@@ -1,6 +1,6 @@
 import { useTexture } from '@react-three/drei'
 
-const BASE_PATH = '/public/materials/'
+const BASE_PATH = '/materials/'
 
 const MATERIAL_TEXTURES = {
 	leather: {
